@@ -15,7 +15,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         ports:
-          - ${{ secrets.MYSQL_PORT }}:${{ secrets.MYSQL_PORT }}
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping -h mysql"
           --health-interval=10s
