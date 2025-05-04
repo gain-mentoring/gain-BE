@@ -8,6 +8,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - name: 체크아웃
@@ -22,16 +35,12 @@ jobs:
       - name: Gradle 설정 및 캐싱
         uses: gradle/actions/setup-gradle@v4
 
-      - name: MYSQL 설정
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          host port: ${{ secrets.MYSQL_PORT }}
-          container port: ${{ secrets.MYSQL_PORT }}
-          mysql database: ${{ secrets.MYSQL_DATABASE }}
-          mysql root password: ${{ secrets.MYSQL_PASSWORD }}
-
       - name: 실행 권한 부여
         run: chmod +x ./gradlew
 
       - name: 테스트
         run: ./gradlew build
+        env:
+          SPRING_PROFILES_ACTIVE: dev
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
