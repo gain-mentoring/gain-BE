@@ -16,6 +16,7 @@ jobs:
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
       MYSQL_URL: ${{ secrets.MYSQL_URL }}
+      TEST_PORT: ${{ secrets.MYSQL_PORT }}
     services:
       mysql:
         image: mysql:8.0
@@ -36,9 +37,15 @@ jobs:
       - name: 체크아웃
         uses: actions/checkout@v4
 
-      - name: Print env (for debug)
+      - name: Echo and Compare
         run: |
-          echo "MYSQL_PORT: $MYSQL_PORT"   
+          if [ "$TEST_PORT" != "3306" ]; then
+            echo "PORT is not 3306: $TEST_PORT"
+            exit 1
+          else
+            echo "PORT is 3306"
+          fi
+        shell: bash
 
       - name: JDK 17 설정
         uses: actions/setup-java@v4
