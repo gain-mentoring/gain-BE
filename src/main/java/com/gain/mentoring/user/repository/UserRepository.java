@@ -1,8 +1,8 @@
 package com.gain.mentoring.user.repository;
 
+import com.gain.mentoring.user.domain.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     // 이메일로 회원 찾기
