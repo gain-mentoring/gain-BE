@@ -39,7 +39,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: 테스트
-        run: ./gradlew test --stacktrace
+        run: ./gradlew test -i
         env:
           SPRING_PROFILES_ACTIVE: dev
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
