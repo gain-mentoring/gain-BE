@@ -8,6 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SPRING_PORT: ${{ secrets.SPRING_PORT }}
+      SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+      MYSQL_URL: ${{ secrets.MYSQL_URL }}
     services:
       mysql:
         image: mysql:8.0
@@ -40,8 +48,3 @@ jobs:
 
       - name: 테스트
         run: ./gradlew test -i
-        env:
-          SPRING_PROFILES_ACTIVE: dev
-          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_URL: ${{ secrets.MYSQL_URL }}
