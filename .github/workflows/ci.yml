@@ -38,6 +38,17 @@ jobs:
       - name: 실행 권한 부여
         run: chmod +x ./gradlew
 
+      - name: MySQL 연결 대기
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h mysql -u"${{ secrets.MYSQL_USERNAME }}" -p"${{ secrets.MYSQL_PASSWORD }}" --silent; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "MySQL not ready yet - sleeping 2s"
+            sleep 2
+          done
+
       - name: 테스트
         run: ./gradlew test --stacktrace
         env:
