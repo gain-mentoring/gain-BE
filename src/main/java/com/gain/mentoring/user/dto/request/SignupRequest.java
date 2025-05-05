@@ -14,6 +14,10 @@ public class SignupRequest {
     @NotBlank(message = "이름은 필수입니다.")
     private String name;
 
+    @Schema(description = "아이디", example = "gain123")
+    @NotBlank(message = "아이디는 필수입니다.")
+    private String userName;
+
     @Schema(description = "이메일", example = "test1234@google.com")
     @Pattern(
             regexp = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$",
@@ -22,9 +26,6 @@ public class SignupRequest {
     @NotBlank(message = "이메일은 필수입니다.")
     private String email;
 
-    @Schema(description = "아이디", example = "gain123")
-    @NotBlank(message = "아이디는 필수입니다.")
-    private String userName;
 
     @Schema(description = "비밀번호", example = "Test1234!")
     @Pattern(
