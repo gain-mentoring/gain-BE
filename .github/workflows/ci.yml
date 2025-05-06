@@ -45,3 +45,10 @@ jobs:
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_URL: ${{ secrets.MYSQL_URL }}
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: build/reports/tests/test
