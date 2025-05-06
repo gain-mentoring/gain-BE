@@ -73,7 +73,7 @@ public class UserServiceTest {
                     "홍길동", "gain1", "test1@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
             );
             SignupRequest request2 = new SignupRequest(
-                    "이순신", "gain4", "test5@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
+                    "이순신", "gain1", "test5@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
             );
 
             // when
