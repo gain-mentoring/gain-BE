@@ -38,6 +38,13 @@ jobs:
       - name: 실행 권한 부여
         run: chmod +x ./gradlew
 
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysql -h 127.0.0.1 -u${{ secrets.MYSQL_USERNAME }} -p${{ secrets.MYSQL_PASSWORD }} -e "SELECT 1" >/dev/null 2>&1; do
+            echo "Waiting for MySQL to be ready..."
+            sleep 2
+          done
+
       - name: 테스트
         run: ./gradlew test --stacktrace
         env:
@@ -45,10 +52,3 @@ jobs:
           MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_URL: ${{ secrets.MYSQL_URL }}
-
-      - name: Upload test report
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: build/reports/tests/test
