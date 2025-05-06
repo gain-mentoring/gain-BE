@@ -8,27 +8,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SPRING_PORT: ${{ secrets.SPRING_PORT }}
-      SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
-      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-      MYSQL_URL: ${{ secrets.MYSQL_URL }}
-      TEST_PORT: ${{ secrets.MYSQL_PORT }}
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="mysqladmin ping -h mysql"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -36,16 +25,6 @@ jobs:
     steps:
       - name: 체크아웃
         uses: actions/checkout@v4
-
-      - name: Echo and Compare
-        run: |
-          if [ "$TEST_PORT" != "3306" ]; then
-            echo "PORT is not 3306: $TEST_PORT"
-            exit 1
-          else
-            echo "PORT is 3306"
-          fi
-        shell: bash
 
       - name: JDK 17 설정
         uses: actions/setup-java@v4
@@ -60,4 +39,9 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: 테스트
-        run: ./gradlew test -i
+        run: ./gradlew test --stacktrace
+        env:
+          SPRING_PROFILES_ACTIVE: dev
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_URL: ${{ secrets.MYSQL_URL }}

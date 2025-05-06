@@ -14,9 +14,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class UserControllerTest {
 
     @Autowired
@@ -29,7 +31,7 @@ public class UserControllerTest {
     @DisplayName("회원가입 성공")
     void success_signup() throws Exception {
         SignupRequest request = new SignupRequest(
-                "홍길동", "gain123", "test1234@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
+                "홍길동", "gain001", "test001@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
         );
 
         mockMvc.perform(post("/api/users/signup")

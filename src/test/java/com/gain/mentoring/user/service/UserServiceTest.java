@@ -33,7 +33,7 @@ public class UserServiceTest {
         void success_signup() {
             // given
             SignupRequest request = new SignupRequest(
-                    "홍길동", "gain123", "test1234@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
+                    "홍길동", "gain1", "test1@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
             );
 
             // when
@@ -50,10 +50,10 @@ public class UserServiceTest {
         void fail_signup_by_duplicated_email() {
             // given
             SignupRequest request1 = new SignupRequest(
-                    "홍길동", "gain123", "test1234@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
+                    "홍길동", "gain1", "test2@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
             );
             SignupRequest request2 = new SignupRequest(
-                    "이순신", "gain1233", "test1234@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
+                    "이순신", "gain3", "test2@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
             );
 
             // when
@@ -70,10 +70,10 @@ public class UserServiceTest {
         void fail_signup_by_duplicated_username() {
             // given
             SignupRequest request1 = new SignupRequest(
-                    "홍길동", "gain123", "test1234@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
+                    "홍길동", "gain1", "test1@google.com", "Test1234!", "2000.01.01", "MALE", "010-1234-5678"
             );
             SignupRequest request2 = new SignupRequest(
-                    "이순신", "gain123", "test12@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
+                    "이순신", "gain4", "test5@google.com", "Test12343!", "2000.01.01", "MALE", "010-1234-5677"
             );
 
             // when
