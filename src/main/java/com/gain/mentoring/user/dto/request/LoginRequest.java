@@ -27,4 +27,7 @@ public class LoginRequest {
     )
     @NotBlank(message = "비밀번호는 필수입니다.")
     private String password;
+
+    @Schema(description = "자동 로그인 여부", example = "true")
+    private boolean autoLogin;
 }
