@@ -1,6 +1,8 @@
 package com.gain.mentoring.user.controller;
 
 import com.gain.mentoring.global.exception.ErrorResponse;
+import com.gain.mentoring.global.jwt.JwtToken;
+import com.gain.mentoring.user.dto.request.LoginRequest;
 import com.gain.mentoring.user.dto.request.SignupRequest;
 import com.gain.mentoring.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,4 +41,19 @@ public class UserController {
         Long id = userService.signup(request);
         return ResponseEntity.created(URI.create("/api/users/" + id)).build();
     }
+
+    @Operation(summary = "로그인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 입력 값이 전달된 경우",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "이메일 또는 비밀번호 오류",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @PostMapping("/login")
+    public ResponseEntity<JwtToken> login(@Valid @RequestBody LoginRequest request) {
+        JwtToken jwtToken = userService.login(request);
+        return ResponseEntity.ok(jwtToken);
+    }
+
 }
